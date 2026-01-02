@@ -1,2 +1,10 @@
 # aws-secure-web-lab
-Projet cloud personnel : VPC, EC2 et Security Group
+- Infrastructure AWS sécurisée déployée avec Terraform :
+  - VPC
+  - Subnet public & privé
+  - Internet Gateway
+  - Nat Gateway
+  - EC2
+  - Security Group
+
+Objectif : pratique cloud, réseau et sécurité
