@@ -11,8 +11,8 @@ Projet de laboratoire pour pratiquer :
 
 ## Architecture
 - VPC
-- Subnet public
-- Subnet privé
+- Sous-réseau public
+- Sous-réseau privé
 - Internet Gateway
 - NAT Gateway
 - EC2 (public & privé)
@@ -20,7 +20,7 @@ Projet de laboratoire pour pratiquer :
 
 ## Sécurité
 - Accès SSH contrôlé
-- Subnet privé sans accès direct Internet
+- Sous-réseau privé sans accès direct Internet
 - NAT Gateway pour trafic sortant
 - Variables sensibles hors GitHub
 
@@ -29,3 +29,14 @@ Projet de laboratoire pour pratiquer :
 terraform init
 terraform plan
 terraform apply
+```
+## Nettoyage
+```bash
+terraform destroy
+```
+## Technologies
+ - AWS
+ - Terraform
+ - Windows PowerShell
+ - Git/Github
+
