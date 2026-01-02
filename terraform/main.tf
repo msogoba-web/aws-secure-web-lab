@@ -20,7 +20,7 @@ resource "aws_vpc" "my_vpc" { # creation de reseau virtuel sur aws
   }
 }
 
-resource "aws_internet_gateway" "igw" {
+resource "aws_internet_gateway" "igw" { # creation de passerelle internet pour le sous-reseau public
   vpc_id = aws_vpc.my_vpc.id
 
   tags = {
@@ -38,7 +38,7 @@ resource "aws_subnet" "public" { # creation de sous reseau public dans le vpc
 }
 
 
-resource "aws_route_table" "public_rt" {
+resource "aws_route_table" "public_rt" { # table de routage pour que le sous-reseau public puisse acceder a internet via la passerelle internet
   vpc_id = aws_vpc.my_vpc.id
 
   route {
@@ -48,7 +48,7 @@ resource "aws_route_table" "public_rt" {
 }
 
 
-resource "aws_route_table_association" "public_assoc" {
+resource "aws_route_table_association" "public_assoc" { # associer la table routage au sous reseau public
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public_rt.id
 }
@@ -58,7 +58,7 @@ resource "aws_subnet" "private" { # creation de sous-reseau prive dans le vpc da
   cidr_block        = "10.0.2.0/24"
 
   tags = {
-    Name = "cloud-lab-public-subnet"
+    Name = "cloud-lab-private-subnet"
   }
 }
 
@@ -76,7 +76,7 @@ resource "aws_nat_gateway" "nat" { # creation de passerelle nat
   }
 }
 
-resource "aws_route_table" "private_rt" { # ajouter une regle sur la table de routage
+resource "aws_route_table" "private_rt" { # ajouter une regle sur la table de routage pour la sorti d'une adresse privee vers internet
   vpc_id = aws_vpc.my_vpc.id
 
   route {
@@ -89,12 +89,12 @@ resource "aws_route_table" "private_rt" { # ajouter une regle sur la table de ro
   }
 }
 
-resource "aws_route_table_association" "private_assoc" {
+resource "aws_route_table_association" "private_assoc" { # association du nat au sous-reseau prive
   subnet_id      = aws_subnet.private.id
   route_table_id = aws_route_table.private_rt.id
 }
 
-resource "aws_security_group" "web_sg" { # creation de groupe de securite 
+resource "aws_security_group" "web_sg" { # creation de groupe de securite pour l'acces http et ssh sur notre instance
   name   = "web-sg"
   vpc_id = aws_vpc.my_vpc.id
 
@@ -122,7 +122,7 @@ resource "aws_security_group" "web_sg" { # creation de groupe de securite
   }
 }
 
-resource "aws_instance" "my_instance" {
+resource "aws_instance" "my_instance" { #creation d'une instance dans le sous-reseau public
   ami                     = "ami-078abd88811000d7e"
   instance_type           = "t3.micro"
   subnet_id = aws_subnet.public.id
@@ -132,7 +132,7 @@ resource "aws_instance" "my_instance" {
     Name= "public-ec2"
   }
 }
-resource "aws_instance" "my_instance1" {
+resource "aws_instance" "my_instance1" {# creation d'une instance dans le sous-reseau prive
   ami                     = "ami-078abd88811000d7e"
   instance_type           = "t3.micro"
   subnet_id = aws_subnet.private.id
